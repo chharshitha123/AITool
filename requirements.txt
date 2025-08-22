@@ -4,4 +4,8 @@ pdfplumber
 faiss-cpu
 pytesseract
 Pillow
-langchain
+
+# Freeze LangChain at the version that still exposes
+# HuggingFaceEmbeddings under langchain.embeddings
+langchain==0.0.353
+huggingface_hub>=0.23.0     # required by the embeddings class
