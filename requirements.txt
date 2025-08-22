@@ -1,0 +1,7 @@
+streamlit
+requests
+pdfplumber
+faiss-cpu
+pytesseract
+Pillow
+langchain
