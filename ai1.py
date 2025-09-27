@@ -140,7 +140,7 @@ def _split(text, fn, tp):
     if not text:
         return []
     head = f"File: {fn} | Type: {tp}\n"
-    split = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    split = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=100)
     return [head + chunk for chunk in split.split_text(text)]
 
 def _process(path):
@@ -202,11 +202,11 @@ def _filters(q):
     types = {v for k, v in _TYPE_KW.items() if k in p}
     return names, types
 
-def build_ctx(q, k=5):
+def build_ctx(q, k=8):
     if not st.session_state.processed_hashes:
         return ""
     names, types = _filters(q)
-    docs = load_store().similarity_search(q, k=20)
+    docs = load_store().max_marginal_relevance_search(q, k=10, fetch_k=50)
     if names or types:
         docs = [d for d in docs if
                 ((not names) or (d.metadata.get("source", "").lower() in names)) and
